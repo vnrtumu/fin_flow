@@ -7,7 +7,7 @@ const { sequelize } = require('@finflow/database');
 const app = express();
 app.use(express.json());
 
-app.use('/', userRoutes);
+app.use('/api/users', userRoutes);
 
 app.use(errorHandler);
 
