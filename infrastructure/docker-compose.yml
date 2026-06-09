@@ -1,0 +1,71 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: finflow-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: finflow_secret
+      MYSQL_DATABASE: finflow_db
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - finflow-net
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: finflow-redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - finflow-net
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  nginx:
+    image: nginx:1.25-alpine
+    container_name: finflow-nginx
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    networks:
+      - finflow-net
+    depends_on:
+      - api-gateway
+
+  # We will define the node services here later when we test via Docker, 
+  # or run them locally via npm run dev mapped to host network.
+  # For now, Nginx expects api-gateway to be reachable.
+  api-gateway:
+    # A placeholder until we build the container, but for local dev 
+    # we usually run Node on the host and point Nginx to host.docker.internal
+    # Here we set it up to allow local dev via Docker's host networking.
+    image: alpine:latest
+    command: sleep infinity
+    networks:
+      - finflow-net
+
+networks:
+  finflow-net:
+    driver: bridge
+
+volumes:
+  mysql-data:
+  redis-data:

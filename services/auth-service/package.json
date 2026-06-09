@@ -1,0 +1,17 @@
+{
+  "name": "@finflow/auth-service",
+  "version": "1.0.0",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "node src/app.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "bcrypt": "^5.1.1",
+    "@finflow/logger": "*",
+    "@finflow/middleware": "*",
+    "@finflow/utils": "*"
+  }
+}

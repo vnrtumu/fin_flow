@@ -1,0 +1,13 @@
+{
+  "name": "finflow",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "services/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "start": "npm run start --workspaces --if-present",
+    "dev": "npm run dev --workspaces --if-present"
+  }
+}
