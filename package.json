@@ -8,6 +8,9 @@
   ],
   "scripts": {
     "start": "npm run start --workspaces --if-present",
-    "dev": "npm run dev --workspaces --if-present"
+    "dev": "concurrently \"npm run dev -w @finflow/api-gateway\" \"npm run dev -w @finflow/auth-service\" \"npm run dev -w @finflow/user-service\""
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.3"
   }
 }

@@ -234,3 +234,15 @@ docker-compose -f docker-compose.prod.yml up --build
 
 **Port Conflicts**:
 - Check `infra/docker-compose.yml`
+
+
+**to stop the services:**
+lsof -i :3000 -i :3001 -i :3002
+
+**kill -9 8618 8621 8644**
+
+**Test the Flow**:
+
+Get a Token: Send a POST request to http://localhost:3000/api/auth/login with: {"email": "user@finflow.com", "password": "password123"}
+
+Access Protected Route: Copy the token from the response, and send a GET request to http://localhost:3000/api/users/me with the header: Authorization: Bearer <your_token>.
